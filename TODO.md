@@ -3,6 +3,10 @@
 **Instructions:**
 
 * Complete each task in order of priority. After each, scan the entire project (every file, byte, and feature) to ensure it works as intended. Only mark as done if fully verified. If a task cannot be completed due to errors or missing input, skip it and return later unless it is necessary to move the project forward.
+* **Integrate Firebase:** Utilize Firebase for data storage, authentication, image uploads, and any other applicable features.
+* **Hosting:** The site will be hosted on Cloudflare Pages.
+* **Domain:** The website domain is wretcheddesigns.com.
+* **Skipped Tasks:** If a task cannot be completed, skip it, note it here, and bring it to attention when all possible tasks are done.
 
 ---
 
@@ -29,10 +33,16 @@
 
 ## 🥇 High Priority
 1. [ ] Real payment provider (Stripe, etc.) and order confirmation email/notification
-2. [ ] Validate all API inputs (zod or custom), sanitize form/overlay inputs, prevent editing of sensitive fields like `id`
-3. [ ] Add optimistic UI, undo/redo, validation, bulk edits for product/category CRUD
-4. [ ] Add user-friendly API error messages, error boundaries
-5. [ ] Add toasts/snackbars and undo for cart actions (merge feedback/UX items)
+2. [ ] **Firebase Integration:** Implement Firebase for data storage for products, categories, blogs, and gallery items.
+3. [ ] Validate all inputs (client-side and Firebase rules), sanitize form/overlay inputs, prevent editing of sensitive fields like `id`.
+4. [ ] **Firebase Authentication:** Implement Firebase Authentication for admin access.
+5. [ ] Add user-friendly error messages, error boundaries.
+6. [ ] Add toasts/snackbars and undo for cart actions (merge feedback/UX items).
+7. [ ] **Firebase Storage:** Implement image uploads to Firebase Storage for products, blog posts, and gallery.
+8. [ ] Add optimistic UI, undo/redo, validation, bulk edits for product/category CRUD.
+9. [ ] Implement blog functionality:
+    * [ ] Create a new data structure in Firebase for blog posts (title, content, optional image, slug, date, etc.).
+    * [ ] Create a blog index page displaying blog titles and optional images, linking to individual blog posts.
 6. [ ] Add keyboard navigation for overlays and modals, ensure contrast ratio meets WCAG, add ARIA roles for screen readers
 7. [ ] Replace all `<img>` with `next/image`, add loading strategy/quality tuning
 8. [ ] Add `.vercelignore`, run `npm run build` validation, confirm `.env.local` for prod
@@ -41,13 +51,14 @@
 ---
 
 ## 🥈 Medium Priority
-10. [ ] Integrate dashboard for order tracking and management
-11. [ ] Add admin UI or script for gallery content (upload, sort, manage)
-12. [ ] Add drag-and-drop, rich text, image cropping for shop categories/products
-13. [ ] Add persistent cart, cart merge for users
-14. [ ] Add address validation, guest checkout
-15. [ ] Add roles, session expire warnings, 2FA, activity logs, reset admin password
-16. [ ] Add admin gallery editor, image lazy load and optimization
+10. [ ] **Firebase Integration:** Update existing API endpoints to interact with Firebase.
+11. [ ] Integrate a dashboard for order tracking and management (leveraging Firebase data).
+12. [ ] Add admin UI for gallery content (upload to Firebase Storage, sort, manage metadata in Firebase).
+13. [ ] Add drag-and-drop, rich text, image cropping for shop categories/products (consider Firebase Storage integration).
+14. [ ] Add persistent cart (using local storage or Firebase), cart merge for authenticated users.
+15. [ ] Add address validation, guest checkout.
+16. [ ] Add roles (using Firebase Authentication custom claims), session expire warnings, 2FA (Firebase Authentication), activity logs (potentially in Firebase).
+17. [ ] Add admin gallery editor, image lazy load and optimization (using Firebase Storage features or a CDN).
 17. [ ] Add dark mode toggle, more device testing
 18. [ ] Add OpenGraph, sitemap.xml, robots.txt
 19. [ ] Choose analytics tool (Plausible, Umami, GA), track key events: views, carts, checkouts
@@ -56,8 +67,9 @@
 22. [ ] Remove unused lock files, standardize on npm
 
 ---
-
 ## 🟦 Optional/Nice-to-Have Features
+* [ ] **Etsy Integration:** Research and implement integration with Etsy API when an account is available. Note: Direct linking for product management might be complex and may require manual updates or a separate sync process. This is likely a stretch goal and might not be fully achievable within this project scope.
+* [ ] **Firebase Integration:** Explore using Firebase Cloud Functions for backend logic (e.g., payment processing webhooks, email notifications).
 * [ ] User account system (for order history, etc.)
 * [ ] Inventory management
 * [ ] External admin UI/backend

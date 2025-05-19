@@ -1,10 +1,23 @@
 "use client";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import AdminOverlay from "../../../components/AdminOverlay";
 import EditableText from "../../../components/EditableText";
 import EditableImage from "../../../components/EditableImage";
 
 export default function AboutAdminPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'unauthenticated' || session?.user?.role !== 'admin') {
+    router.push('/api/auth/signin');
+    return null; // or a loading spinner, or nothing
+  }
   // Demo state for editing
   const [title, setTitle] = useState("Our Story");
   const [bio, setBio] = useState("Hey! I'm Julio, the creative spirit behind this brand.\nWhat started as a side hustle with cups turned into a full-blown lifestyle collection.\nEvery design is crafted with intention — blending function, fun, and flair.\nThanks for supporting this journey. You're not just a customer — you're part of the vibe.");
