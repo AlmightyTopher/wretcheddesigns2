@@ -1,6 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
-import path from 'path';
+import { db } from '@/lib/firebase';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+} from 'firebase/firestore';
 
 export type Blog = {
   title: string;
@@ -12,43 +22,69 @@ export type Blog = {
   author: string;
   publishDate: string;
   comments?: { author: string; text: string; date: string }[];
+  id?: string;
 };
 
-const dataPath = path.join(process.cwd(), 'data/blogs.json');
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { method, body, query: reqQuery } = req;
 
-function readData(): Blog[] {
-  if (!fs.existsSync(dataPath)) return [];
-  return JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-}
-function writeData(data: Blog[]) {
-  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-}
+  try {
+    if (method === 'GET') {
+      const blogsCol = collection(db, 'blogs');
+      const snapshot = await getDocs(blogsCol);
+      const blogs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Blog));
+      return res.status(200).json(blogs);
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method, body, query } = req;
-  let data = readData();
+    } else if (method === 'POST') {
+      const newBlogData: Omit<Blog, 'id'> = body;
+      const docRef = await addDoc(collection(db, 'blogs'), newBlogData);
+      return res.status(201).json({ id: docRef.id, ...newBlogData });
 
-  if (method === 'GET') {
-    res.status(200).json(data);
-  } else if (method === 'POST') {
-    // Create new blog
-    data.push(body as Blog);
-    writeData(data);
-    res.status(201).json(body);
-  } else if (method === 'PUT') {
-    // Update blog by slug
-    const idx = data.findIndex((b: Blog) => b.slug === body.slug);
-    if (idx === -1) return res.status(404).json({ error: 'Blog not found' });
-    data[idx] = body as Blog;
-    writeData(data);
-    res.status(200).json(body);
-  } else if (method === 'DELETE') {
-    // Delete blog by slug
-    data = data.filter((b: Blog) => b.slug !== query.slug);
-    writeData(data);
-    res.status(204).end();
-  } else {
-    res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-    res.status(405).end(`Method ${method} Not Allowed`);
+    } else if (method === 'PUT') {
+      const targetSlug = body.slug as string;
+      if (!targetSlug) {
+        return res.status(400).json({ error: 'Slug is required for update' });
+      }
+
+      const blogsCol = collection(db, 'blogs');
+      const q = query(blogsCol, where('slug', '==', targetSlug));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        return res.status(404).json({ error: 'Blog not found' });
+      }
+
+      const docToUpdateRef = doc(db, 'blogs', snapshot.docs[0].id);
+      const updateData: Partial<Blog> = body;
+      await updateDoc(docToUpdateRef, updateData);
+
+      return res.status(200).json({ id: docToUpdateRef.id, ...updateData });
+
+    } else if (method === 'DELETE') {
+      const targetSlug = reqQuery.slug as string;
+      if (!targetSlug) {
+        return res.status(400).json({ error: 'Slug is required for deletion' });
+      }
+
+      const blogsCol = collection(db, 'blogs');
+      const q = query(blogsCol, where('slug', '==', targetSlug));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        return res.status(404).json({ error: 'Blog not found' });
+      }
+
+      const docToDeleteRef = doc(db, 'blogs', snapshot.docs[0].id);
+      await deleteDoc(docToDeleteRef);
+
+      return res.status(204).end();
+
+    } else {
+      res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+      return res.status(405).end(`Method ${method} Not Allowed`);
+    }
+  } catch (error) {
+    console.error('Error handling blog request with Firestore:', error);
+    return res.status(500).json({ error: 'An error occurred' });
   }
-} 
+}
