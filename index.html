@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Wretched Designs</title>
+    <meta name="description" content="Techno-goth artwear & darkness unleashed. Shop the bizarre."/>
+    <link rel="stylesheet" href="style.css"/>
+    {/* Preload fonts - adjust paths if necessary after _next copy */}
+    <link rel="preload" href="./_next/static/media/569ce4b8f30dc480-s.p.woff2" as="font" crossorigin="" type="font/woff2"/>
+    <link rel="preload" href="./_next/static/media/93f479601ee12b01-s.p.woff2" as="font" crossorigin="" type="font/woff2"/>
+    {/* Preload hero image */}
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80"/>
+</head>
+<body class="min-h-screen bg-matte-black text-white relative antialiased">
+    <header class="sticky top-0 z-50 w-full border-b border-neon-magenta/30 bg-[#111111bb] backdrop-blur-md shadow-neon">
+        <nav class="container flex items-center justify-between py-4">
+            <a class="flex items-center gap-3 select-none" href="/">
+                <span class="glitch text-2xl font-header tracking-wide text-electric-purple drop-shadow-md select-none">Wretched</span>
+                <span class="font-header font-bold text-acid-magenta glow text-lg tracking-widest select-none">Designs</span>
+            </a>
+            <div class="flex gap-6">
+                <a class="transition neon hover:text-electric-purple hover:drop-shadow-[0_0_10px_#FF00CC]" href="/shop">Shop</a>
+                <a class="transition neon hover:text-acid-magenta" href="/gallery">Gallery</a>
+                <a class="transition neon hover:text-electric-purple" href="/about">About</a>
+                <a class="transition neon hover:text-acid-magenta" href="/contact">Contact</a>
+                <a title="View Cart" class="ml-2 p-2 rounded-full transition hover:bg-neon-magenta/10" href="/cart">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF00CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="neon">
+                        <circle cx="9" cy="21" r="1.5"></circle>
+                        <circle cx="19" cy="21" r="1.5"></circle>
+                        <path d="M1 1h2l2.1 13.4A2 2 0 0 0 7 17h11.5a2 2 0 0 0 1.98-1.76L23 6H6"></path>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main class="container pt-10 pb-20 min-h-[80vh] flex flex-col">
+        <section class="relative flex flex-col items-center justify-center min-h-[80vh] w-full overflow-hidden p-4">
+            <div class="absolute inset-0 -z-10 bg-hero-blocker">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80" alt="Cyberpunk neon city background placeholder" class="object-cover w-full h-full brightness-75 contrast-150 blur-[2px] scale-105" style="filter:saturate(1.2) blur(2px)"/>
+                <div class="absolute inset-0 bg-gradient-to-b from-[#111111dd] to-[#1a0033ee] mix-blend-multiply"></div>
+            </div>
+            <div class="text-center max-w-3xl mx-auto z-10">
+                <h1 class="glitch-header glitch font-header text-5xl md:text-7xl mb-7 neon leading-tight tracking-[0.11em]">Born from Chaos. Built to Disturb.</h1>
+                <p class="text-xl md:text-2xl font-mono text-white/90 mb-8"><span class="neon">Techno-goth apparel · Glitch art & relics · Nightlife for the unrepentant</span></p>
+                <div class="flex flex-col sm:flex-row justify-center gap-6 mt-7">
+                    <a href="/shop" class="px-8 py-4 text-lg font-header bg-electric-purple text-white rounded-lg shadow-neon neon transition duration-200 hover:scale-105 hover:bg-acid-magenta focus:ring-4 focus:ring-acid-magenta/30 focus:outline-none">Shop Now</a>
+                    <a href="/gallery" class="px-8 py-4 text-lg font-header border-2 border-acid-magenta text-acid-magenta rounded-lg shadow-neon hover:bg-acid-magenta/20 neon transition duration-200 hover:scale-105 focus:ring-4 focus:ring-electric-purple/30 focus:outline-none">View Art Gallery</a>
+                </div>
+            </div>
+            <div class="absolute left-1/2 -translate-x-1/2 bottom-4 w-32 h-2 bg-gradient-to-r from-electric-purple via-acid-magenta to-neon-blue rounded-full animate-pulse shadow-neon opacity-50"></div>
+        </section>
+    </main>
+    <footer class="w-full text-center py-6 text-xs text-neon-magenta/80">Wretched Designs © 2025 — Born from Chaos.</footer>
+
+    {/* Next.js scripts - paths updated to be relative to root */}
+    <script src="./_next/static/chunks/webpack-e34e044e63e0dcd2.js" async=""></script>
+    <script src="./_next/static/chunks/4bd1b696-52a6696c08e3276c.js" async=""></script>
+    <script src="./_next/static/chunks/684-6a8aaa95f94f8fbc.js" async=""></script>
+    <script src="./_next/static/chunks/main-app-217e8408527f1cb5.js" async=""></script>
+    <script src="./_next/static/chunks/app/layout-9ed293edd6776c0d.js" async=""></script>
+    {/* Polyfills for older browsers */}
+    <script src="./_next/static/chunks/polyfills-42372ed130431b0a.js" noModule=""></script>
+    {/* Inline scripts from original HTML for Next.js data hydration/setup */}
+    <script>(self.__next_f=self.__next_f||[]).push([0])</script>
+    <script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[6874,[\"177\",\"static/chunks/app/layout-9ed293edd6776c0d.js\"],\"\"]\n3:I[7555,[],\"\"]\n4:I[1295,[],\"\"]\n5:I[2124,[\"177\",\"static/chunks/app/layout-9ed293edd6776c0d.js\"],\"ClientFooter\"]\n6:I[9665,[],\"MetadataBoundary\"]\n8:I[9665,[],\"OutletBoundary\"]\nb:I[4911,[],\"AsyncMetadataOutlet\"]\nd:I[9665,[],\"ViewportBoundary\"]\nf:I[6614,[],\"\"]\n:HL[\"/_next/static/media/569ce4b8f30dc480-s.p.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/media/93f479601ee12b01-s.p.woff2\",\"font\",{\"crossOrigin\":\"\",\"type\":\"font/woff2\"}]\n:HL[\"/_next/static/css/bdbc3c110138d88b.css\",\"style\"]\n"])</script>
+    <script>self.__next_f.push([1,"0:{\"P\":null,\"b\":\"1U-xuU_jDHRbNooWwbJaj\",\"p\":\"\",\"c\":[\"\",\"\"],\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],[\"\",[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/bdbc3c110138d88b.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"className\":\"dark __variable_5cfdac __variable_9a8899\",\"children\":[\"$\",\"body\",null,{\"className\":\"min-h-screen bg-matte-black text-white relative antialiased\",\"children\":[[\"$\",\"header\",null,{\"className\":\"sticky top-0 z-50 w-full border-b border-neon-magenta/30 bg-[#111111bb] backdrop-blur-md shadow-neon\",\"children\":[\"$\",\"nav\",null,{\"className\":\"container flex items-center justify-between py-4\",\"children\":[[\"$\",\"$L2\",null,{\"href\":\"/\",\"className\":\"flex items-center gap-3 select-none\",\"children\":[[\"$\",\"span\",null,{\"className\":\"glitch text-2xl font-header tracking-wide text-electric-purple drop-shadow-md select-none\",\"children\":\"Wretched\"}],[\"$\",\"span\",null,{\"className\":\"font-header font-bold text-acid-magenta glow text-lg tracking-widest select-none\",\"children\":\"Designs\"}]]}],[\"$\",\"div\",null,{\"className\":\"flex gap-6\",\"children\":[[\"$\",\"$L2\",null,{\"href\":\"/shop\",\"className\":\"transition neon hover:text-electric-purple hover:drop-shadow-[0_0_10px_#FF00CC]\",\"children\":\"Shop\"}],[\"$\",\"$L2\",null,{\"href\":\"/gallery\",\"className\":\"transition neon hover:text-acid-magenta\",\"children\":\"Gallery\"}],[\"$\",\"$L2\",null,{\"href\":\"/about\",\"className\":\"transition neon hover:text-electric-purple\",\"children\":\"About\"}],[\"$\",\"$L2\",null,{\"href\":\"/contact\",\"className\":\"transition neon hover:text-acid-magenta\",\"children\":\"Contact\"}],[\"$\",\"$L2\",null,{\"href\":\"/cart\",\"title\":\"View Cart\",\"className\":\"ml-2 p-2 rounded-full transition hover:bg-neon-magenta/10\",\"children\":[\"$\",\"svg\",null,{\"width\":\"24\",\"height\":\"24\",\"viewBox\":\"0 0 24 24\",\"fill\":\"none\",\"stroke\":\"#FF00CC\",\"strokeWidth\":\"1.5\",\"strokeLinecap\":\"round\",\"strokeLinejoin\":\"round\",\"className\":\"neon\",\"children\":[[\"$\",\"circle\",null,{\"cx\":\"9\",\"cy\":\"21\",\"r\":\"1.5\"}],[\"$\",\"circle\",null,{\"cx\":\"19\",\"cy\":\"21\",\"r\":\"1.5\"}],[\"$\",\"path\",null,{\"d\":\"M1 1h2l2.1 13.4A2 2 0 0 0 7 17h11.5a2 2 0 0 0 1.98-1.76L23 6H6\"}]]}]}]]}]]}]}],[\"$\",\"main\",null,{\"className\":\"container pt-10 pb-20 min-h-[80vh] flex flex-col\",\"children\":[\"$\",\"$L3\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L4\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}]}],[\"$\",\"$L5\",null,{}]]}]}]]}],{\"children\":[\"__PAGE__\",[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"section\",null,{\"className\":\"relative flex flex-col items-center justify-center min-h-[80vh] w-full overflow-hidden p-4\",\"children\":[[\"$\",\"div\",null,{\"className\":\"absolute inset-0 -z-10 bg-hero-blocker\",\"children\":[[\"$\",\"img\",null,{\"src\":\"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format\u0026fit=crop\u0026w=1350\u0026q=80\",\"alt\":\"Cyberpunk neon city background placeholder\",\"className\":\"object-cover w-full h-full brightness-75 contrast-150 blur-[2px] scale-105\",\"style\":{\"filter\":\"saturate(1.2) blur(2px)\"}}],[\"$\",\"div\",null,{\"className\":\"absolute inset-0 bg-gradient-to-b from-[#111111dd] to-[#1a0033ee] mix-blend-multiply\"}]]}],[\"$\",\"div\",null,{\"className\":\"text-center max-w-3xl mx-auto z-10\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"glitch-header glitch font-header text-5xl md:text-7xl mb-7 neon leading-tight tracking-[0.11em]\",\"children\":\"Born from Chaos. Built to Disturb.\"}],[\"$\",\"p\",null,{\"className\":\"text-xl md:text-2xl font-mono text-white/90 mb-8\",\"children\":[\"$\",\"span\",null,{\"className\":\"neon\",\"children\":\"Techno-goth apparel · Glitch art \u0026 relics · Nightlife for the unrepentant\"}]}],[\"$\",\"div\",null,{\"className\":\"flex flex-col sm:flex-row justify-center gap-6 mt-7\",\"children\":[[\"$\",\"a\",null,{\"href\":\"/shop\",\"className\":\"px-8 py-4 text-lg font-header bg-electric-purple text-white rounded-lg shadow-neon neon transition duration-200 hover:scale-105 hover:bg-acid-magenta focus:ring-4 focus:ring-acid-magenta/30 focus:outline-none\",\"children\":\"Shop Now\"}],[\"$\",\"a\",null,{\"href\":\"/gallery\",\"className\":\"px-8 py-4 text-lg font-header border-2 border-acid-magenta text-acid-magenta rounded-lg shadow-neon hover:bg-acid-magenta/20 neon transition duration-200 hover:scale-105 focus:ring-4 focus:ring-electric-purple/30 focus:outline-none\",\"children\":\"View Art Gallery\"}]]}]]}],[\"$\",\"div\",null,{\"className\":\"absolute left-1/2 -translate-x-1/2 bottom-4 w-32 h-2 bg-gradient-to-r from-electric-purple via-acid-magenta to-neon-blue rounded-full animate-pulse shadow-neon opacity-50\"}]]}],[\"$\",\"$L6\",null,{\"children\":\"$L7\"}],null,[\"$\",\"$L8\",null,{\"children\":[\"$L9\",\"$La\",[\"$\",\"$Lb\",null,{\"promise\":\"$@c\"}]]}]]}],{},null,false]},null,false],[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$1\",\"kouFQGpT_yLp5tqNplMC7\",{\"children\":[[\"$\",\"$Ld\",null,{\"children\":\"$Le\"}],[\"$\",\"meta\",null,{\"name\":\"next-size-adjust\",\"content\":\"\"}]]}],null]}],false]],\"m\":\"$undefined\",\"G\":[\"$f\",\"$undefined\"],\"s\":false,\"S\":true}\n"])</script>
+    <script>self.__next_f.push([1,"10:\"$Sreact.suspense\"\n11:I[4911,[],\"AsyncMetadata\"]\n7:[\"$\",\"$10\",null,{\"fallback\":null,\"children\":[\"$\",\"$L11\",null,{\"promise\":\"$@12\"}]}]\n"])</script>
+    <script>self.__next_f.push([1,"a:null\n"])</script>
+    <script>self.__next_f.push([1,"e:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n9:null\n"])</script>
+    <script>self.__next_f.push([1,"12:{\"metadata\":[[\"$\",\"title\",\"0\",{\"children\":\"Wretched Designs\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Techno-goth artwear \u0026 darkness unleashed. Shop the bizarre.\"}]],\"error\":null,\"digest\":\"$undefined\"}\nc:{\"metadata\":\"$12:metadata\",\"error\":null,\"digest\":\"$undefined\"}\n"])</script>
+</body>
+</html>
