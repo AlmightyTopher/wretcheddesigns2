@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import Lightbox from "../../components/Lightbox";
 
+// Import dynamic from next/dynamic
+import dynamic from 'next/dynamic';
 export default function GalleryPage() {
   const [artImages, setArtImages] = useState<string[]>([]);
   const [lightbox, setLightbox] = useState<string | null>(null);
@@ -19,6 +20,11 @@ export default function GalleryPage() {
 
     fetchImages();
   }, []);
+
+// Dynamically import the Lightbox component
+const Lightbox = dynamic(() => import("../../components/Lightbox"), {
+  ssr: false, // Ensure this component is not server-rendered
+});
 
   return (
     <section className="relative flex flex-col items-center justify-center min-h-[80vh] w-full overflow-hidden p-4">

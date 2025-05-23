@@ -1,3 +1,4 @@
+import Image from 'next/image'; // Import the Image component
 export default function Home() {
   const data = {
     tagline: 'Born from Chaos. Built to Disturb.',
@@ -5,14 +6,18 @@ export default function Home() {
   return (
     <section className="relative flex flex-col items-center justify-center min-h-[80vh] w-full overflow-hidden p-4">
       <div className="absolute inset-0 -z-10 bg-hero-blocker">
-        <img
+        <Image // Use the Image component
           src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80"
           alt="Cyberpunk neon city background placeholder"
+          width={1350}
+          height={800}
+          priority
           className="object-cover w-full h-full brightness-75 contrast-150 blur-[2px] scale-105"
           style={{ filter: 'saturate(1.2) blur(2px)' }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#111111dd] to-[#1a0033ee] mix-blend-multiply" />
       </div>
+
       <div className="text-center max-w-3xl mx-auto z-10">
         <h1 className="glitch-header glitch font-header text-5xl md:text-7xl mb-7 neon leading-tight tracking-[0.11em]" style={{ color: '#3A7CA5' }}>
           {data.tagline}

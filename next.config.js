@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true, // Required for next export with default loader
     domains: [
       "source.unsplash.com",
       "images.unsplash.com",
