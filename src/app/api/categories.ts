@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/firebase';
+import { getFirebaseFirestore } from '@/lib/firebase';
 import {
   collection,
   doc,
@@ -32,11 +32,12 @@ const deleteSchema = z.object({
   id: z.string().uuid(),
 });
 
-const col = collection(db, 'categories');
 
 // GET: /api/categories or /api/categories?id=...
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
+  const db = await getFirebaseFirestore();
+  const col = collection(db, 'categories');
   const id = searchParams.get('id');
 
   try {
@@ -60,6 +61,8 @@ export async function GET(req: NextRequest) {
 
 // POST: Add a new category (expects {id?, name, description?})
 export async function POST(req: NextRequest) {
+  const db = await getFirebaseFirestore();
+  const col = collection(db, 'categories');
   try {
     const body = await req.json();
     const validation = createCategorySchema.safeParse(body);
@@ -87,6 +90,7 @@ export async function POST(req: NextRequest) {
 
 // PUT: Update a category (expects {id, name?, description?})
 export async function PUT(req: NextRequest) {
+  const db = await getFirebaseFirestore();
   try {
     const body = await req.json();
     const validation = updateCategorySchema.safeParse(body);
@@ -113,6 +117,7 @@ export async function PUT(req: NextRequest) {
 
 // DELETE: Remove a category (expects {id})
 export async function DELETE(req: NextRequest) {
+  const db = await getFirebaseFirestore();
   try {
     const body = await req.json();
     const validation = deleteSchema.safeParse(body);

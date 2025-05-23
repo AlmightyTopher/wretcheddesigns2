@@ -14,12 +14,10 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [stripePromise, setStripePromise] = useState(null);
-  const [clientSecret, setClientSecret] = useState("");
-  const stripe = useStripe();
-  const elements = useElements();
+  const [clientSecret, setClientSecret] = useState<string>(""); // Explicitly type clientSecret as string
 
   useEffect(() => {
-    // Replace with your actual publishable key environment variable
+    // Define stripePromise inside the useEffect hook
     setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!));
     // Fetch the client secret from your backend
     const fetchClientSecret = async () => {
@@ -37,9 +35,11 @@ export default function CheckoutPage() {
         console.error("Error fetching client secret:", error);
       }
     };
-    fetchClientSecret();
+    fetchClientSecret(); // Call fetchClientSecret when the component mounts
   }, []);
   const router = useRouter();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -87,7 +87,7 @@ export default function CheckoutPage() {
       <h1 className="glitch-header glitch font-header text-4xl md:text-6xl mb-7 neon leading-tight tracking-[0.11em]" style={{ color: '#3A7CA5' }}>
         Checkout
       </h1>
-      {stripePromise && clientSecret && (
+      {clientSecret && ( // Only render Elements when clientSecret is available
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <form onSubmit={handleSubmit} className="w-full max-w-xl bg-matte-black/80 rounded-xl shadow-lg p-8 flex flex-col gap-5 relative">
             <input name="name" type="text" required placeholder="Name" className="px-4 py-2 rounded bg-[#222] text-white mb-2 focus:outline-none focus:ring-2 focus:ring-acid-magenta" value={form.name} onChange={handleChange} aria-label="Name" />

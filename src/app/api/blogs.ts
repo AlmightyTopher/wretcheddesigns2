@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-    import { db } from '@/lib/firebase'; // Assuming your firebase.ts is at this path
+    import { getFirebaseFirestore } from '@/lib/firebase'; // Assuming your firebase.ts is at this path
     import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 
     export type Blog = {
@@ -21,6 +21,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
       const { method, body, query } = req;
 
       try {
+        // Get Firestore instance only when needed
+        const db = await getFirebaseFirestore();
+
         if (method === 'GET') {
           // Fetch all blogs
           const blogsCol = collection(db, 'blogs');

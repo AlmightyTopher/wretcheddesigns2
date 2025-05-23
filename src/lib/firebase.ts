@@ -1,8 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,8 +16,20 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-const auth = getAuth(app);
-const firestore = getFirestore(app);
-const storage = getStorage(app);
+// Export async functions for lazy loading
+const getFirebaseAuth = async () => {
+  const { getAuth } = await import("firebase/auth");
+  return getAuth(app);
+};
 
-export { app, auth, firestore, storage };
+const getFirebaseFirestore = async () => {
+  const { getFirestore } = await import("firebase/firestore");
+  return getFirestore(app);
+};
+
+const getFirebaseStorage = async () => {
+  const { getStorage } = await import("firebase/storage");
+  return getStorage(app);
+};
+
+export { app, getFirebaseAuth, getFirebaseFirestore, getFirebaseStorage };
