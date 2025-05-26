@@ -19,7 +19,20 @@ export const authOptions = {
             credentials?.password || ''
           );
           const user = userCredential.user;
-          return { id: user.uid, name: user.displayName, email: user.email, role: 'admin' };
+
+          // Get the user's ID token
+          const idToken = await user.getIdToken();
+
+          // TODO: Verify the ID token using the Firebase Admin SDK
+          // import { adminAuth } from '../../../lib/firebaseAdmin'; // Example import
+          // const decodedToken = await adminAuth.verifyIdToken(idToken);
+
+          // TODO: Check for a custom claim like 'admin: true'
+          // if (decodedToken.admin === true) {
+            // If the user has the admin claim, return a user object with the admin role
+            return { id: user.uid, name: user.displayName, email: user.email, role: 'admin' };
+          // }
+          // If the user does not have the admin claim, return null
         } catch (error) {
           return null;
         }
