@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /checkout/
+Disallow: /confirmation/
+
+# Allow important pages
+Allow: /
+Allow: /shop
+Allow: /gallery
+Allow: /about
+Allow: /contact
+Allow: /blogs
+
+# Sitemap location
+Sitemap: https://wretcheddesigns.com/sitemap.xml
