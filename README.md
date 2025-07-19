@@ -20,3 +20,4 @@ See `database-schema.sql` for Supabase setup instructions.
 - Stripe for payments
 
 Built with Same.new 🚀
+<- Ready for successful Force deployment trigger -->
