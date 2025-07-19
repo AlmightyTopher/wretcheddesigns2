@@ -1,0 +1,65 @@
+{
+  "cups": [
+    {
+      "id": "aurora-glow-tumbler",
+      "name": "Aurora Glow Tumbler",
+      "price": 21,
+      "description": "Iridescent swirl, 20oz, BPA-free.",
+      "image": "/placeholder-cup.png",
+      "available": false
+    },
+    {
+      "id": "midnight-marble-mug",
+      "name": "Midnight Marble Mug",
+      "price": 18,
+      "description": "Black & white resin, 16oz, hand-poured.",
+      "image": "/placeholder-mug.png",
+      "available": true
+    },
+    {
+      "id": "new3-1747444963351",
+      "name": "Jo Momma",
+      "price": 70,
+      "description": "",
+      "image": "/placeholder-cup.png",
+      "available": true
+    },
+    { "id": "0a7dd23f-61ba-4ba0-b6f5-9435def573f5.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/0a7dd23f-61ba-4ba0-b6f5-9435def573f5.jpg", "available": true },
+    { "id": "efa6f8b2-c87b-427f-928a-45045bb118d9.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/efa6f8b2-c87b-427f-928a-45045bb118d9.jpg", "available": true },
+    { "id": "583e25a6-a5cc-4da1-9090-75b9e529c4b6.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/583e25a6-a5cc-4da1-9090-75b9e529c4b6.jpg", "available": true },
+    { "id": "dce9d1cf-a78e-4828-bcfa-4b3869462fbb.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/dce9d1cf-a78e-4828-bcfa-4b3869462fbb.jpg", "available": true },
+    { "id": "547a2a4c-9753-4daf-953d-f5bf403e4ec2.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/547a2a4c-9753-4daf-953d-f5bf403e4ec2.jpg", "available": true },
+    { "id": "44f7c31a-6f07-49ba-8c3d-06a352ccc4cf.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/44f7c31a-6f07-49ba-8c3d-06a352ccc4cf.jpg", "available": true },
+    { "id": "160267fd-c59d-411d-97a0-625ab3637783.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/160267fd-c59d-411d-97a0-625ab3637783.jpg", "available": true },
+    { "id": "d767a49f-a7ba-4311-bcf1-1f4ea6069288.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/d767a49f-a7ba-4311-bcf1-1f4ea6069288.jpg", "available": true },
+    { "id": "eab17e34-a0b4-4ef2-8883-7e58db70b0d1.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/eab17e34-a0b4-4ef2-8883-7e58db70b0d1.jpg", "available": true },
+    { "id": "ef810e0a-fe60-4ebf-bbb1-fc6d026d15d6.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/ef810e0a-fe60-4ebf-bbb1-fc6d026d15d6.jpg", "available": true },
+    { "id": "b773f260-89f6-4a3d-bd80-2662ae09a634.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/b773f260-89f6-4a3d-bd80-2662ae09a634.jpg", "available": true },
+    { "id": "0769b870-babf-40e7-8a82-0682dc5abcfb.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/0769b870-babf-40e7-8a82-0682dc5abcfb.jpg", "available": true },
+    { "id": "093a4006-4a4a-4e35-be30-6ef0a608f392.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/093a4006-4a4a-4e35-be30-6ef0a608f392.jpg", "available": true },
+    { "id": "b7020074-02b1-42be-9c82-98317c8b0f66.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/b7020074-02b1-42be-9c82-98317c8b0f66.jpg", "available": true },
+    { "id": "2537f307-75de-408a-98be-99850e625e44.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/2537f307-75de-408a-98be-99850e625e44.jpg", "available": true },
+    { "id": "c242d958-c0ad-4f95-a3ba-3dd61f40fcf2.jpg", "name": "Cup Art", "price": 30, "description": "Custom cup design.", "image": "/Images/Cups/c242d958-c0ad-4f95-a3ba-3dd61f40fcf2.jpg", "available": true }
+  ],
+  "apparel": [
+    {
+      "id": "sunset-crop-hoodie",
+      "name": "Sunset Crop Hoodie",
+      "price": 38,
+      "description": "Peach-fade dye, lightweight fleece.",
+      "image": "/placeholder-hoodie.png",
+      "available": true
+    },
+    {
+      "id": "dreamstate-tee",
+      "name": "Dreamstate Tee",
+      "price": 28,
+      "description": "Oversized fit, soft-washed cotton, front logo.",
+      "image": "/placeholder-tee.png",
+      "available": true
+    },
+    { "id": "6e6b35c8-59a0-4ac4-9489-b08e05475e87.jpg", "name": "Shirt Art", "price": 40, "description": "Custom shirt design.", "image": "/Images/Shirts/6e6b35c8-59a0-4ac4-9489-b08e05475e87.jpg", "available": true },
+    { "id": "bdb0f322-71fe-47d4-a980-e9866a89c344.jpg", "name": "Shirt Art", "price": 40, "description": "Custom shirt design.", "image": "/Images/Shirts/bdb0f322-71fe-47d4-a980-e9866a89c344.jpg", "available": true },
+    { "id": "f6dfff40-1017-4409-a45d-ff22c42d23f8.jpg", "name": "Shirt Art", "price": 40, "description": "Custom shirt design.", "image": "/Images/Shirts/f6dfff40-1017-4409-a45d-ff22c42d23f8.jpg", "available": true }
+  ]
+}
