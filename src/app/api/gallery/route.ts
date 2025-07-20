@@ -1,87 +1,139 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import { getServerSession } from 'next-auth/next';
-import { admin } from '@/lib/firebase'; // Assuming your Firebase Admin SDK is initialized here and includes Firestore
-import formidable from 'formidable';
-
-const db = admin.firestore(); // Initialize Firestore
+import { supabase } from '@/lib/supabase';
+import { validateFile, sanitizeFilename, generateSecureFilename, FileValidationError } from '@/lib/fileValidation';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { withRateLimit, apiRateLimit, uploadRateLimit } from '@/lib/rateLimit';
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession({ req });
+  // Apply rate limiting
+  const rateLimitResult = await withRateLimit(req, apiRateLimit);
+  if (rateLimitResult) return rateLimitResult;
+
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // Assuming session.user.isAdmin indicates an admin user
- if (!session.user.isAdmin) {
+  // Check admin role
+  if (!session.user?.role || session.user.role !== 'admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   try {
-    const gallerySnapshot = await db.collection('gallery').get();
-    const galleryItems = gallerySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    return NextResponse.json(galleryItems);
+    const { data, error } = await supabase
+      .from('gallery')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json({ error: 'Failed to load gallery images' }, { status: 500 });
+    }
+
+    return NextResponse.json(data || []);
   } catch (error) {
     console.error("Error fetching gallery items:", error);
     return NextResponse.json({ error: 'Failed to load gallery images' }, { status: 500 });
   }
 }
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession({ req });
+  // Apply stricter rate limiting for uploads
+  const rateLimitResult = await withRateLimit(req, uploadRateLimit);
+  if (rateLimitResult) return rateLimitResult;
+
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // Assuming session.user.isAdmin indicates an admin user
-  if (!session.user.isAdmin) {
+  // Check admin role
+  if (!session.user?.role || session.user.role !== 'admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   try {
-    const form = formidable({});
-    const [fields, files] = await form.parse(req);
-    const imageFile = files.image?.[0]; // Assuming the file input name is 'image'
+    const formData = await req.formData();
+    const file = formData.get('image') as File;
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
 
-    if (!imageFile) {
+    if (!file) {
       return NextResponse.json({ error: 'No image file uploaded' }, { status: 400 });
     }
 
-    const storageBucket = admin.storage().bucket();
-    const uniqueFilename = `${Date.now()}_${imageFile.originalFilename}`;
-    const filePath = `gallery_images/${uniqueFilename}`;
-    const file = storageBucket.file(filePath);
+    if (!title) {
+      return NextResponse.json({ error: 'Title is required' }, { status: 400 });
+    }
 
-    const fileStream = fs.createReadStream(imageFile.filepath);
+    // Validate file
+    try {
+      await validateFile(file, {
+        maxWidth: 4096,
+        maxHeight: 4096,
+        skipDimensionCheck: true // Skip in API context
+      });
+    } catch (error) {
+      if (error instanceof FileValidationError) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
+      }
+      throw error;
+    }
 
-    await new Promise((resolve, reject) => {
-      fileStream.pipe(file.createWriteStream()).on('finish', resolve).on('error', reject);
+    // Generate secure filename
+    const secureFilename = generateSecureFilename(file.name);
+    const filePath = `gallery-images/${secureFilename}`;
+
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('gallery-images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) {
+      console.error("Upload error:", uploadError);
+      return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
+    }
+
+    // Get public URL
+    const { data: urlData } = supabase.storage
+      .from('gallery-images')
+      .getPublicUrl(filePath);
+
+    // Save metadata to database with transaction
+    const { data: galleryData, error: dbError } = await supabase
+      .from('gallery')
+      .insert([{
+        title,
+        description: description || null,
+        image_url: urlData.publicUrl,
+        alt_text: title,
+        is_featured: false,
+        display_order: 0
+      }])
+      .select()
+      .single();
+
+    if (dbError) {
+      // Cleanup uploaded file on database error
+      await supabase.storage
+        .from('gallery-images')
+        .remove([filePath]);
+
+      console.error("Database error:", dbError);
+      return NextResponse.json({ error: 'Failed to save image metadata' }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      message: 'Image added successfully',
+      id: galleryData.id,
+      imageUrl: urlData.publicUrl
     });
-
-    // Get the public download URL
-    await file.makePublic();
-    const downloadURL = file.publicUrl();
-
-    // Save metadata to Firestore
-    const galleryRef = db.collection('gallery');
-    const newGalleryDoc = await galleryRef.add({
-      downloadURL,
-      fileName: uniqueFilename,
-      uploadedAt: admin.firestore.FieldValue.serverTimestamp(),
-      // Add any other relevant metadata here
-    });
-
-    return NextResponse.json({ message: 'Image added successfully', id: newGalleryDoc.id, downloadURL });
   } catch (error) {
     console.error("Error in POST /api/gallery:", error);
     return NextResponse.json({ error: 'Failed to add gallery image' }, { status: 500 });
@@ -89,27 +141,66 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const session = await getServerSession({ req });
+  // Apply rate limiting
+  const rateLimitResult = await withRateLimit(req, apiRateLimit);
+  if (rateLimitResult) return rateLimitResult;
+
+  const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // Assuming session.user.isAdmin indicates an admin user
-  if (!session.user.isAdmin) {
+  // Check admin role
+  if (!session.user?.role || session.user.role !== 'admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   try {
-    const { id } = await req.json(); // Assuming the request body contains { id: 'gallery_item_id' }
+    const { id } = await req.json();
 
     if (!id) {
       return NextResponse.json({ error: 'Missing gallery item ID' }, { status: 400 });
     }
 
-    // Delete from Firestore
-    await db.collection('gallery').doc(id).delete();
+    // Get image details first for cleanup
+    const { data: imageData, error: fetchError } = await supabase
+      .from('gallery')
+      .select('image_url')
+      .eq('id', id)
+      .single();
 
-    // TODO: Optionally delete the image from Firebase Storage as well
+    if (fetchError) {
+      if (fetchError.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Image not found' }, { status: 404 });
+      }
+      throw fetchError;
+    }
+
+    // Use the safe deletion function
+    const { error: deleteError } = await supabase.rpc('delete_gallery_image_safe', {
+      image_id: id
+    });
+
+    if (deleteError) {
+      console.error("Delete error:", deleteError);
+      return NextResponse.json({ error: 'Failed to delete image' }, { status: 500 });
+    }
+
+    // Extract storage path from URL and delete from storage
+    if (imageData.image_url) {
+      try {
+        const url = new URL(imageData.image_url);
+        const pathParts = url.pathname.split('/');
+        const filePath = pathParts.slice(-1)[0]; // Get filename
+
+        await supabase.storage
+          .from('gallery-images')
+          .remove([`gallery-images/${filePath}`]);
+      } catch (storageError) {
+        console.warn("Failed to delete from storage:", storageError);
+        // Continue - database deletion succeeded
+      }
+    }
 
     return NextResponse.json({ message: 'Image removed successfully' });
   } catch (error) {

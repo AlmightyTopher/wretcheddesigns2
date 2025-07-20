@@ -85,7 +85,32 @@ CREATE POLICY "Public can read active products" ON products FOR SELECT USING (is
 CREATE POLICY "Public can read gallery" ON gallery FOR SELECT USING (true);
 CREATE POLICY "Public can read published blogs" ON blogs FOR SELECT USING (is_published = true);
 
--- 6. Insert sample gallery data with your 14 art images
+-- 6. Create safe deletion function with transaction handling
+CREATE OR REPLACE FUNCTION delete_gallery_image_safe(image_id UUID)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+AS $
+DECLARE
+    image_exists BOOLEAN;
+BEGIN
+    -- Check if image exists
+    SELECT EXISTS(SELECT 1 FROM gallery WHERE id = image_id) INTO image_exists;
+
+    IF NOT image_exists THEN
+        RAISE EXCEPTION 'Image not found';
+    END IF;
+
+    -- Delete the image
+    DELETE FROM gallery WHERE id = image_id;
+
+    RETURN TRUE;
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE;
+END;
+$;
+
+-- 7. Insert sample gallery data with your 14 art images
 INSERT INTO gallery (title, description, image_url, alt_text, is_featured, display_order) VALUES
 ('Digital Chaos 1', 'Abstract digital artwork featuring vibrant colors and chaotic patterns', '/Images/Art/0e24c8e1-ad42-4b6c-b538-672c737cec86.jpg', 'Colorful abstract digital art', true, 1),
 ('Neon Dreams', 'Cyberpunk-inspired artwork with neon colors and futuristic elements', '/Images/Art/212c84dc-0494-4fb2-950d-1a450d86abf6.jpg', 'Neon cyberpunk digital art', false, 2),

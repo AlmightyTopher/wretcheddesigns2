@@ -177,7 +177,7 @@ export const updateGalleryImage = async (id: string, updateData: Partial<Omit<Ga
 };
 
 /**
- * Deletes a gallery image from database
+ * Deletes a gallery image from database with transaction safety
  */
 export const deleteGalleryImage = async (id: string): Promise<void> => {
   if (!isSupabaseConfigured()) {
@@ -189,22 +189,60 @@ export const deleteGalleryImage = async (id: string): Promise<void> => {
       throw new GalleryServiceError('Invalid image ID provided.');
     }
 
-    const image = await getGalleryImageById(id);
-    if (!image) {
-      throw new GalleryServiceError('Image not found. It may have already been deleted.');
+    // Use transaction to ensure atomicity
+    const { data, error } = await supabase.rpc('delete_gallery_image_safe', {
+      image_id: id
+    });
+
+    if (error) {
+      // Fallback to non-transactional delete if RPC doesn't exist
+      const image = await getGalleryImageById(id);
+      if (!image) {
+        throw new GalleryServiceError('Image not found. It may have already been deleted.');
+      }
+
+      const { error: deleteError } = await supabase
+        .from('gallery')
+        .delete()
+        .eq('id', id);
+
+      if (deleteError) throw deleteError;
     }
-
-    // Delete from database
-    const { error } = await supabase
-      .from('gallery_images')
-      .delete()
-      .eq('id', id);
-
-    if (error) throw error;
   } catch (error) {
     if (error instanceof GalleryServiceError) throw error;
     console.error("Error in deleteGalleryImage:", error);
     throw new GalleryServiceError('Failed to delete image. Please try again.');
+  }
+};
+
+/**
+ * Creates a new gallery image with transaction safety
+ */
+export const createGalleryImage = async (imageData: NewGalleryImageData): Promise<GalleryImage> => {
+  if (!isSupabaseConfigured()) {
+    throw new GalleryServiceError('Supabase is not configured. Please set up your Supabase project first.');
+  }
+
+  try {
+    // Validate required fields
+    if (!imageData.title || !imageData.image_url) {
+      throw new GalleryServiceError('Title and image URL are required.');
+    }
+
+    const { data, error } = await supabase
+      .from('gallery')
+      .insert([imageData])
+      .select()
+      .single();
+
+    if (error) throw error;
+    if (!data) throw new GalleryServiceError('Failed to create image record.');
+
+    return data;
+  } catch (error) {
+    if (error instanceof GalleryServiceError) throw error;
+    console.error("Error in createGalleryImage:", error);
+    throw new GalleryServiceError('Failed to create image. Please try again.');
   }
 };
 

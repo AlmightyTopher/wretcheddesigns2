@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { supabaseAuth } from '../../../lib/supabase';
+import bcrypt from 'bcrypt';
 
 console.log("[NextAuth] Initializing with Supabase Auth...");
 console.log("[NextAuth] NEXTAUTH_SECRET Loaded:", !!process.env.NEXTAUTH_SECRET);
@@ -22,18 +23,21 @@ export const authOptions = {
         }
 
         try {
-          // Check for demo credentials first
-          const demoEmail = process.env.DEMO_ADMIN_EMAIL;
-          const demoPassword = process.env.DEMO_ADMIN_PASSWORD;
+          // Check for admin credentials first
+          const adminEmail = process.env.ADMIN_EMAIL;
+          const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 
-          if (credentials.email === demoEmail && credentials.password === demoPassword) {
-            console.log("[NextAuth][authorize] Demo admin login successful");
-            return {
-              id: 'demo-admin',
-              name: 'Demo Admin',
-              email: credentials.email,
-              role: 'admin',
-            };
+          if (credentials.email === adminEmail && adminPasswordHash) {
+            const isValidPassword = await bcrypt.compare(credentials.password, adminPasswordHash);
+            if (isValidPassword) {
+              console.log("[NextAuth][authorize] Admin login successful");
+              return {
+                id: 'admin-user',
+                name: 'Admin',
+                email: credentials.email,
+                role: 'admin',
+              };
+            }
           }
 
           // Try Supabase authentication
